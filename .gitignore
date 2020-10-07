@@ -1,0 +1,6 @@
+node_modules
+.DS_Store
+.idea
+bd.sqlite
+.env
+package-lock.json
