@@ -16,4 +16,8 @@ const User = require('./user')(sequelize, Sequelize.DataTypes);
 Attachment.hasOne(Quiz, {as: 'quiz', foreignKey: 'attachmentId'});
 Quiz.belongsTo(Attachment, {as: 'attachment', foreignKey: 'attachmentId'});
 
+// Relation 1-to-N between User and Quiz:
+User.hasMany(Quiz, {as: 'quizzes', foreignKey: 'authorId'});
+Quiz.belongsTo(User, {as: 'author', foreignKey: 'authorId'});
+
 module.exports = sequelize;

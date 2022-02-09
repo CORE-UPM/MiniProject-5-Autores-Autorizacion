@@ -1,2 +1,2 @@
-# Mini Project - Skeleton - 2022
+# Mini Project - Autores - 2022
 CORE IWEB CDPS TECW

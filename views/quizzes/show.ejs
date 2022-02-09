@@ -5,6 +5,10 @@
 
 <% include ../attachments/_attachment %>
 
+<div>
+    <small> by <%= quiz.author?.username ?? "Anonymous" %> </small>
+</div>
+
 <ul>
     <li>Question: <b><%= quiz.question %></b></li>
     <li>Answer: <b><%= quiz.answer %></b></li>

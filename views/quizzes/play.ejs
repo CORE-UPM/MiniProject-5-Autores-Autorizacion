@@ -10,6 +10,10 @@
 
     <% include ../attachments/_attachment %>
 
+    <div>
+        <small> by <%= quiz.author?.username ?? "Anonymous" %> </small>
+    </div>
+
     <div class="wideRow">
         <input type="text" class="itemWide" name="answer" value="<%= answer %>" placeholder="Answer" autocomplete="off"/>
         <input type="submit" class="itemNarrow" value="Check">
