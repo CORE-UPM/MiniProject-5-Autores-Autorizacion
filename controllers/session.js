@@ -30,6 +30,38 @@ exports.deleteExpiredUserSession = (req, res, next) => {
     next();
 };
 
+// Middleware: Login required.
+//
+// If the user is logged in previously then there will exists
+// the req.session.loginUser object, so I continue with the others
+// middlewares or routes.
+// If req.session.loginUser does not exist, then nobody is logged,
+// so I redirect to the login screen.
+//
+exports.loginRequired = function (req, res, next) {
+    if (req.session.loginUser) {
+        next();
+    } else {
+        console.log("Info: Login required: log in and retry.");
+        res.redirect('/login');
+    }
+};
+
+// MW that allows to pass only if the logged in user is:
+// - admin
+// - or is the user to be managed.
+exports.adminOrMyselfRequired = (req, res, next) => {
+
+    const isAdmin = !!req.session.loginUser?.isAdmin;
+    const isMyself = req.load.user.id === req.session.loginUser?.id;
+
+    if (isAdmin || isMyself) {
+        next();
+    } else {
+        console.log('Prohibited route: it is not the logged in user, nor an administrator.');
+        res.send(403);
+    }
+};
 
 /*
  * User authentication: Checks that the user is registered.

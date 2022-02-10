@@ -41,31 +41,59 @@ router.param('userId', userController.load);
 
 
 // Routes for the resource /quizzes
-router.get('/quizzes',                     quizController.index);
-router.get('/quizzes/:quizId(\\d+)',       quizController.show);
-router.get('/quizzes/new',                 quizController.new);
-router.post('/quizzes',                    upload.single('image'),
-                                           quizController.create);
-router.get('/quizzes/:quizId(\\d+)/edit',  quizController.edit);
-router.put('/quizzes/:quizId(\\d+)',       upload.single('image'),
-                                           quizController.update);
-router.delete('/quizzes/:quizId(\\d+)',    quizController.destroy);
+router.get('/quizzes',
+    quizController.index);
+router.get('/quizzes/:quizId(\\d+)',
+    quizController.adminOrAuthorRequired,
+    quizController.show);
+router.get('/quizzes/new',
+    sessionController.loginRequired,
+    quizController.new);
+router.post('/quizzes',
+    sessionController.loginRequired,
+    upload.single('image'),
+    quizController.create);
+router.get('/quizzes/:quizId(\\d+)/edit',
+    quizController.adminOrAuthorRequired,
+    quizController.edit);
+router.put('/quizzes/:quizId(\\d+)',
+    quizController.adminOrAuthorRequired,
+    upload.single('image'),
+    quizController.update);
+router.delete('/quizzes/:quizId(\\d+)',
+    quizController.adminOrAuthorRequired,
+    quizController.destroy);
 
-router.get('/quizzes/:quizId(\\d+)/play',  quizController.play);
-router.get('/quizzes/:quizId(\\d+)/check', quizController.check);
+router.get('/quizzes/:quizId(\\d+)/play',
+    quizController.play);
+router.get('/quizzes/:quizId(\\d+)/check',
+    quizController.check);
 
 // Route to quiz attachment
-router.get('/quizzes/:quizId(\\d+)/attachment', quizController.attachment);
+router.get('/quizzes/:quizId(\\d+)/attachment',
+    quizController.attachment);
 
 
 // Routes for the resource /users
-router.get('/users',                    userController.index);
-router.get('/users/:userId(\\d+)',      userController.show);
-router.get('/users/new',                userController.new);
-router.post('/users',                   userController.create);
-router.get('/users/:userId(\\d+)/edit', userController.edit);
-router.put('/users/:userId(\\d+)',      userController.update);
-router.delete('/users/:userId(\\d+)',   userController.destroy);
+router.get('/users',
+    sessionController.loginRequired,
+    userController.index);
+router.get('/users/:userId(\\d+)',
+    sessionController.loginRequired,
+    userController.show);
+router.get('/users/new',
+    userController.new);
+router.post('/users',
+    userController.create);
+router.get('/users/:userId(\\d+)/edit',
+    sessionController.adminOrMyselfRequired,
+    userController.edit);
+router.put('/users/:userId(\\d+)',
+    sessionController.adminOrMyselfRequired,
+    userController.update);
+router.delete('/users/:userId(\\d+)',
+    sessionController.adminOrMyselfRequired,
+    userController.destroy);
 
 
 module.exports = router;
